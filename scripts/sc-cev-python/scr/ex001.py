@@ -1,0 +1,1 @@
+print('Olá, mundo') #fazer aparecer olá mundo na tela
