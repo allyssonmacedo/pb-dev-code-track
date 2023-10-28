@@ -1,2 +1,0 @@
-# scr-python
-Python Scripts

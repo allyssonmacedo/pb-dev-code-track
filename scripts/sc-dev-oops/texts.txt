@@ -1,1 +1,0 @@
-https://medium.com/codex/object-oriented-programming-in-python-chapter-3-the-visitor-pattern-d0b176d4807d
