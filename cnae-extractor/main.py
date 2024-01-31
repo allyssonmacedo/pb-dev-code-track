@@ -4,9 +4,10 @@
 
 # load_dotenv()
 
-from functions.connect import Connect as db
+from connect import Connect as db
 
-db.Connect.create_municipios()
+db.create_municipios()
+# db.teste()
 
 # mydb = mysql.connector.connect(
 #   host= os.getenv("DB_HOST"),

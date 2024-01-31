@@ -13,23 +13,27 @@ class Connect:
             user=os.getenv("DB_USERNAME"),
             passwd= os.getenv("DB_PASSWORD"),
             db= os.getenv("DB_NAME"),
-            autocommit = True,
-            # ssl_mode = "VERIFY_IDENTITY",
+            autocommit = True
+            # ,ssl_mode = "VERIFY_IDENTITY",
             # ssl      = {
             #   "ca": "/etc/ssl/cert.pem"
             # }
             )
 
-    def create_municipios(self):
+    def create_municipios(self, drop_table: bool = False):
+
         mycursor = self.mydb.cursor()
 
-        mycursor.execute("DROP TABLE IF EXISTS municipios;")
+        if drop_table == True: 
+            mycursor.execute("DROP TABLE IF EXISTS municipios;")
 
         mycursor.execute("CREATE TABLE IF NOT EXISTS municipios (id_code INT PRIMARY KEY, municipio VARCHAR(255))")
         
         mycursor.execute("""
         select * from municipios;
         """)
+
+        return print('Tabela criada')
 
     def create_estabelecimentos(self):
         mycursor = self.mydb.cursor()
