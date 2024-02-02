@@ -4,77 +4,76 @@ import mysql.connector # pip install mysql-connector-python
 
 load_dotenv()
 
-class Connect:
-    
-    def __init__(self) -> None:
+mydb = mysql.connector.connect(
+    host= os.getenv("DB_HOST"),
+    user=os.getenv("DB_USERNAME"),
+    passwd= os.getenv("DB_PASSWORD"),
+    db= os.getenv("DB_NAME"),
+    autocommit = True
+    # ,ssl_mode = "VERIFY_IDENTITY",
+    # ssl      = {
+    #   "ca": "/etc/ssl/cert.pem"
+    # }
+    )
 
-        self.mydb = mysql.connector.connect(
-            host= os.getenv("DB_HOST"),
-            user=os.getenv("DB_USERNAME"),
-            passwd= os.getenv("DB_PASSWORD"),
-            db= os.getenv("DB_NAME"),
-            autocommit = True
-            # ,ssl_mode = "VERIFY_IDENTITY",
-            # ssl      = {
-            #   "ca": "/etc/ssl/cert.pem"
-            # }
-            )
+def query(query:str):
+    return mydb.cursor().execute(query)
 
-    def create_municipios(self, drop_table: bool = False):
+def create_municipios(drop_table: bool = False):
 
-        mycursor = self.mydb.cursor()
+    mycursor = mydb.cursor()
 
-        if drop_table == True: 
-            mycursor.execute("DROP TABLE IF EXISTS municipios;")
+    if drop_table == True: 
+        mycursor.execute("DROP TABLE IF EXISTS municipios;")
 
-        mycursor.execute("CREATE TABLE IF NOT EXISTS municipios (id_code INT PRIMARY KEY, municipio VARCHAR(255))")
-        
-        mycursor.execute("""
-        select * from municipios;
-        """)
+    mycursor.execute("CREATE TABLE IF NOT EXISTS municipios (id_code INT PRIMARY KEY, municipio VARCHAR(255))")
 
-        return print('Tabela criada')
 
-    def create_estabelecimentos(self):
-        mycursor = self.mydb.cursor()
+def create_estabelecimentos(drop_table: bool = False):
+    mycursor = mydb.cursor()
 
+    if drop_table == True: 
         mycursor.execute("DROP TABLE IF EXISTS estabelecimentos;")
 
-        mycursor.execute("""
-                 CREATE TABLE IF NOT EXISTS estabelecimentos (
-                  id INT AUTO_INCREMENT PRIMARY KEY,
-                  CNPJ_BAS VARCHAR(255),
-                  CNPJ_ORDEM VARCHAR(255),
-                  CNPJ_DV VARCHAR(255),
-                  MATRIZ VARCHAR(255),
-                  NOME_F VARCHAR(255),
-                  SIT_CAD VARCHAR(255),
-                  DATA_SIT_CAD VARCHAR(255),
-                  MOT_SIT_CAD VARCHAR(255),
-                  NOME_CID_EXT VARCHAR(255),
-                  PAIS VARCHAR(255),
-                  DATA_INICIO_ATV VARCHAR(255),
-                  CNAE_PRINC VARCHAR(255),
-                  CNAE_SEC VARCHAR(255),
-                  TIPO_LOGR VARCHAR(255),
-                  LOGRADOURO VARCHAR(255),
-                  NUM VARCHAR(255),
-                  COMPL VARCHAR(255),
-                  BAIRRO VARCHAR(255),
-                  CEP VARCHAR(255),
-                  UF VARCHAR(255),
-                  MUNIC VARCHAR(255),
-                  DDD_1 VARCHAR(255),
-                  TEL_1 VARCHAR(255),
-                  DDD_2 VARCHAR(255),
-                  TEL_2 VARCHAR(255),
-                  DDD_FAX VARCHAR(255),
-                  FAX1 VARCHAR(255),
-                  EMAIL VARCHAR(255),
-                  SIT_ESP VARCHAR(255),
-                  DATA_SIT_ESP VARCHAR(255)
-                 )
-                 """)
+    mycursor.execute("""
+                CREATE TABLE IF NOT EXISTS estabelecimentos (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                CNPJ_BAS VARCHAR(255),
+                CNPJ_ORDEM VARCHAR(255),
+                CNPJ_DV VARCHAR(255),
+                MATRIZ VARCHAR(255),
+                NOME_F VARCHAR(255),
+                SIT_CAD VARCHAR(255),
+                DATA_SIT_CAD VARCHAR(255),
+                MOT_SIT_CAD VARCHAR(255),
+                NOME_CID_EXT VARCHAR(255),
+                PAIS VARCHAR(255),
+                DAcreate_all_TA_INICIO_ATV VARCHAR(255),
+                CNAE_PRINC VARCHAR(255),
+                CNAE_SEC VARCHAR(255),
+                TIPO_LOGR VARCHAR(255),
+                LOGRADOURO VARCHAR(255),
+                NUM VARCHAR(255),
+                COMPL VARCHAR(255),
+                BAIRRO VARCHAR(255),
+                CEP VARCHAR(255),
+                UF VARCHAR(255),
+                MUNIC VARCHAR(255),
+                DDD_1 VARCHAR(255),
+                TEL_1 VARCHAR(255),
+                DDD_2 VARCHAR(255),
+                TEL_2 VARCHAR(255),
+                DDD_FAX VARCHAR(255),
+                FAX1 VARCHAR(255),
+                EMAIL VARCHAR(255),
+                SIT_ESP VARCHAR(255),
+                DATA_SIT_ESP VARCHAR(255)
+                )
+            """)
+
+def create_tables(drop_table: bool = False):
+    create_municipios(drop_table)
+    create_estabelecimentos(drop_table)
 
 
 
