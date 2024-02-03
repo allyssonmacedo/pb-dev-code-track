@@ -16,8 +16,26 @@ mydb = mysql.connector.connect(
     # }
     )
 
-def query(query:str):
-    return mydb.cursor().execute(query)
+def query(query:str, display:bool=False, num:int=0):
+    
+    mycursor = mydb.cursor()
+
+    mycursor.execute(query)
+
+    if display == True:
+        myresult = mycursor.fetchall()
+
+        if num == 0:
+            for x in myresult:
+                print(x)
+        elif num > 0:
+            c = 1
+            for x in myresult:
+                c += 1
+                if c <= num:
+                    print(x)
+                elif c > num:
+                    break
 
 def create_municipios(drop_table: bool = False):
 
@@ -37,7 +55,6 @@ def create_estabelecimentos(drop_table: bool = False):
 
     mycursor.execute("""
                 CREATE TABLE IF NOT EXISTS estabelecimentos (
-                id INT AUTO_INCREMENT PRIMARY KEY,
                 CNPJ_BAS VARCHAR(255),
                 CNPJ_ORDEM VARCHAR(255),
                 CNPJ_DV VARCHAR(255),
@@ -67,7 +84,8 @@ def create_estabelecimentos(drop_table: bool = False):
                 FAX1 VARCHAR(255),
                 EMAIL VARCHAR(255),
                 SIT_ESP VARCHAR(255),
-                DATA_SIT_ESP VARCHAR(255)
+                DATA_SIT_ESP VARCHAR(255),
+                id INT AUTO_INCREMENT PRIMARY KEY
                 )
             """)
 
@@ -85,8 +103,10 @@ def create_tables(drop_table: bool = False):
 # SET GLOBAL local_infile = true;
 # """)
 
+# def teste():
+#     mycursor = mydb.cursor()
 
-# mycursor.execute("""
+#     mycursor.execute("""
 #   LOAD DATA INFILE 'D:/Github/pb-dev-code-track/cnae-extractor/data/MUNICIPIOS.csv'
 #   INTO TABLE municipios
 #   FIELDS TERMINATED BY ';'
